@@ -1,4 +1,4 @@
-package dev.altw8n.delivery_service;
+package dev.altw8n.deliveryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

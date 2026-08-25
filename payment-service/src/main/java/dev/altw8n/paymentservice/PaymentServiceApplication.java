@@ -1,4 +1,4 @@
-package dev.altw8n.payment_service;
+package dev.altw8n.paymentservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
