@@ -1,7 +1,6 @@
 package dev.altw8n.orderservice.api;
 
 import dev.altw8n.orderservice.domain.*;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +18,9 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderDto create(@RequestBody OrderEntity orderEntity){
+    public OrderDto create(@RequestBody CreateOrderRequestDto request){
         log.info("creating order");
-        var saved = orderProcessor.create(orderEntity);
+        var saved = orderProcessor.create(request);
         return orderEntityMapper.toOrderDto(saved);
     }
 

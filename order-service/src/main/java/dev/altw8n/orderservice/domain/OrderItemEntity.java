@@ -27,8 +27,23 @@ public class OrderItemEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "item_name")
+    private String name;
+
     @Column(name = "price_at_purchase")
     private BigDecimal priceAtPurchase;
+
+    public void setPriceAtPurchase(BigDecimal priceAtPurchase){
+        this.priceAtPurchase = priceAtPurchase;
+    }
+
+    public BigDecimal getPriceAtPurchase() {
+        return priceAtPurchase;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
 
     @Override
     public boolean equals(Object o) {
