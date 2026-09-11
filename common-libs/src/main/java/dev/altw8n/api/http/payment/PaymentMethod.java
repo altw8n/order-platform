@@ -1,4 +1,4 @@
-package dev.altw8n.paymentservice.domain;
+package dev.altw8n.api.http.payment;
 
 public enum PaymentMethod {
     CARD,

@@ -1,5 +1,6 @@
-package dev.altw8n.orderservice.domain;
+package dev.altw8n.orderservice.domain.db;
 
+import dev.altw8n.api.http.order.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,5 +55,57 @@ public class OrderEntity {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public String getCourierName() {
+        return courierName;
+    }
+
+    public Integer getEtaMinutes() {
+        return etaMinutes;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCourierName(String courierName) {
+        this.courierName = courierName;
+    }
+
+    public void setEtaMinutes(Integer etaMinutes) {
+        this.etaMinutes = etaMinutes;
+    }
+
+    public void setItems(Set<OrderItemEntity> items) {
+        this.items = items;
     }
 }

@@ -1,4 +1,4 @@
-package dev.altw8n.orderservice.domain;
+package dev.altw8n.api.http.order;
 
 public enum OrderStatus {
     PENDING_PAYMENT,

@@ -1,4 +1,4 @@
-package dev.altw8n.orderservice.api;
+package dev.altw8n.api.http.order;
 
 public record OrderItemRequestDto(
     Long itemId,

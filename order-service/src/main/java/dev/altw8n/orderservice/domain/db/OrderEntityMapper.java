@@ -1,7 +1,7 @@
-package dev.altw8n.orderservice.domain;
+package dev.altw8n.orderservice.domain.db;
 
-import dev.altw8n.orderservice.api.CreateOrderRequestDto;
-import dev.altw8n.orderservice.api.OrderDto;
+import dev.altw8n.api.http.order.CreateOrderRequestDto;
+import dev.altw8n.api.http.order.OrderDto;
 import org.mapstruct.*;
 
 @Mapper(

@@ -1,4 +1,4 @@
-package dev.altw8n.paymentservice.domain;
+package dev.altw8n.paymentservice.domain.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,8 +1,11 @@
-package dev.altw8n.paymentservice.api;
+package dev.altw8n.paymentservice.domain;
 
-import dev.altw8n.paymentservice.domain.PaymentEntityRepository;
-import dev.altw8n.paymentservice.domain.PaymentMethod;
-import dev.altw8n.paymentservice.domain.PaymentStatus;
+import dev.altw8n.api.http.payment.CreatePaymentRequestDto;
+import dev.altw8n.paymentservice.api.PaymentController;
+import dev.altw8n.api.http.payment.PaymentMethod;
+import dev.altw8n.api.http.payment.PaymentStatus;
+import dev.altw8n.paymentservice.domain.db.PaymentEntityMapper;
+import dev.altw8n.paymentservice.domain.db.PaymentEntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,7 @@ public class PaymentService {
         this.mapper = mapper;
     }
 
-    public CreatePaymentResponseDto makePayment(CreatePaymentRequestDto request){
+    public dev.altw8n.api.http.payment.CreatePaymentResponseDto makePayment(CreatePaymentRequestDto request){
         var found = repository.findByOrderId(request.orderId());
         if (found.isPresent()){
             log.info("payment is already exists");

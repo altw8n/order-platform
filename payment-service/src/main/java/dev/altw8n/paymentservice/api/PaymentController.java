@@ -1,6 +1,9 @@
 package dev.altw8n.paymentservice.api;
 
-import dev.altw8n.paymentservice.domain.PaymentEntityRepository;
+import dev.altw8n.api.http.payment.CreatePaymentRequestDto;
+import dev.altw8n.paymentservice.domain.db.PaymentEntityMapper;
+import dev.altw8n.paymentservice.domain.db.PaymentEntityRepository;
+import dev.altw8n.paymentservice.domain.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +26,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public CreatePaymentResponseDto createPayment(
+    public dev.altw8n.api.http.payment.CreatePaymentResponseDto createPayment(
             @RequestBody CreatePaymentRequestDto request
     ){
         log.info("received request");

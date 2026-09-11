@@ -1,4 +1,4 @@
-package dev.altw8n.orderservice.domain;
+package dev.altw8n.orderservice.domain.db;
 
 import jakarta.persistence.*;
 import lombok.Getter;

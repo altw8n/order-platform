@@ -1,6 +1,8 @@
 package dev.altw8n.orderservice.api;
 
+import dev.altw8n.api.http.order.OrderDto;
 import dev.altw8n.orderservice.domain.*;
+import dev.altw8n.orderservice.domain.db.OrderEntityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +19,13 @@ public class OrderController {
         this.orderEntityMapper = orderEntityMapper;
     }
 
-    @PostMapping
-    public OrderDto create(@RequestBody CreateOrderRequestDto request){
-        log.info("creating order");
-        var saved = orderProcessor.create(request);
+    @PostMapping("/{id}/pay")
+    public OrderDto payOrder(
+            @PathVariable Long id,
+            @RequestBody OrderPaymentRequest request
+    ){
+        log.info("paying order");
+        var saved = orderProcessor.processPayment(id, request);
         return orderEntityMapper.toOrderDto(saved);
     }
 

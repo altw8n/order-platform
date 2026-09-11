@@ -1,9 +1,8 @@
-package dev.altw8n.orderservice.domain;
+package dev.altw8n.orderservice.domain.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderItemJpaRepository extends JpaRepository<OrderItemEntity, Long> {
-
+public interface OrderJpaRepository extends JpaRepository<OrderEntity, Long> {
 }

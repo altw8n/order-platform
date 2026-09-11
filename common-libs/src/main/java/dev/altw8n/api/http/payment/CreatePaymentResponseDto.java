@@ -1,7 +1,5 @@
-package dev.altw8n.paymentservice.api;
+package dev.altw8n.api.http.payment;
 
-import dev.altw8n.paymentservice.domain.PaymentMethod;
-import dev.altw8n.paymentservice.domain.PaymentStatus;
 
 import java.math.BigDecimal;
 

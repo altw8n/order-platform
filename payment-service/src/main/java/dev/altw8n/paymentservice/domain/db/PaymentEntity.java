@@ -1,10 +1,7 @@
-package dev.altw8n.paymentservice.domain;
+package dev.altw8n.paymentservice.domain.db;
 
+import dev.altw8n.api.http.payment.PaymentMethod;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -24,7 +21,7 @@ public class PaymentEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
-    private PaymentStatus paymentStatus;
+    private dev.altw8n.api.http.payment.PaymentStatus paymentStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)
@@ -32,7 +29,7 @@ public class PaymentEntity {
 
     public PaymentEntity(){};
 
-    public PaymentEntity(Long id, Long orderId, BigDecimal amount, PaymentStatus paymentStatus, PaymentMethod paymentMethod) {
+    public PaymentEntity(Long id, Long orderId, BigDecimal amount, dev.altw8n.api.http.payment.PaymentStatus paymentStatus, PaymentMethod paymentMethod) {
         this.id = id;
         this.orderId = orderId;
         this.amount = amount;
@@ -52,7 +49,7 @@ public class PaymentEntity {
         return amount;
     }
 
-    public PaymentStatus getPaymentStatus() {
+    public dev.altw8n.api.http.payment.PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
@@ -72,7 +69,7 @@ public class PaymentEntity {
         this.amount = amount;
     }
 
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
+    public void setPaymentStatus(dev.altw8n.api.http.payment.PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
