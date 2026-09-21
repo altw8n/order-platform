@@ -3,14 +3,20 @@ package dev.altw8n.orderservice.domain;
 import dev.altw8n.api.http.order.OrderStatus;
 import dev.altw8n.api.http.order.CreateOrderRequestDto;
 import dev.altw8n.api.http.payment.CreatePaymentRequestDto;
+import dev.altw8n.api.http.payment.CreatePaymentResponseDto;
 import dev.altw8n.api.http.payment.PaymentStatus;
+import dev.altw8n.api.kafka.OrderPaidEvent;
 import dev.altw8n.orderservice.api.OrderPaymentRequest;
 import dev.altw8n.orderservice.domain.db.OrderEntity;
 import dev.altw8n.orderservice.domain.db.OrderEntityMapper;
 import dev.altw8n.orderservice.domain.db.OrderItemEntity;
 import dev.altw8n.orderservice.domain.db.OrderJpaRepository;
 import dev.altw8n.orderservice.external.PaymentHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,19 +26,26 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class OrderProcessor {
+    private static final Logger log = LoggerFactory.getLogger(OrderProcessor.class);
     private final OrderJpaRepository orderJpaRepository;
     private final OrderEntityMapper orderEntityMapper;
     private final PaymentHttpClient paymentHttpClient;
+    private final KafkaTemplate<Long, OrderPaidEvent> kafkaTemplate;
+
+    @Value("${order-paid-topic}")
+    private String orderPaidTopic;
 
     public OrderProcessor(
             OrderJpaRepository orderJpaRepository,
             OrderEntityMapper orderEntityMapper,
-            PaymentHttpClient paymentHttpClient
+            PaymentHttpClient paymentHttpClient,
+            KafkaTemplate<Long, OrderPaidEvent> kafkaTemplate
             )
     {
         this.orderEntityMapper = orderEntityMapper;
         this.orderJpaRepository = orderJpaRepository;
         this.paymentHttpClient = paymentHttpClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public OrderEntity create(CreateOrderRequestDto request){
@@ -76,7 +89,20 @@ public class OrderProcessor {
         } else{
             entity.setOrderStatus(OrderStatus.PAID);
         }
+        sendOrderPaidEvent(entity, response);
         return orderJpaRepository.save(entity);
+    }
+
+    private void  sendOrderPaidEvent(OrderEntity entity, CreatePaymentResponseDto paymentResponseDto) {
+        kafkaTemplate.send(orderPaidTopic,
+                entity.getId(),
+                new OrderPaidEvent(
+                        entity.getId(),
+                        paymentResponseDto.paymentId(),
+                        entity.getTotalAmount(),
+                        paymentResponseDto.paymentMethod()
+                )
+        ).thenAccept(result -> {log.info("order paid event send");});
     }
 }
 
