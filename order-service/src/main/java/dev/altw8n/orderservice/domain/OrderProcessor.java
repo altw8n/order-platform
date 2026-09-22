@@ -5,6 +5,7 @@ import dev.altw8n.api.http.order.CreateOrderRequestDto;
 import dev.altw8n.api.http.payment.CreatePaymentRequestDto;
 import dev.altw8n.api.http.payment.CreatePaymentResponseDto;
 import dev.altw8n.api.http.payment.PaymentStatus;
+import dev.altw8n.api.kafka.DeliveryAssignedEvent;
 import dev.altw8n.api.kafka.OrderPaidEvent;
 import dev.altw8n.orderservice.api.OrderPaymentRequest;
 import dev.altw8n.orderservice.domain.db.OrderEntity;
@@ -103,6 +104,28 @@ public class OrderProcessor {
                         paymentResponseDto.paymentMethod()
                 )
         ).thenAccept(result -> {log.info("order paid event send");});
+    }
+
+    public void processDeliveryAssigned(DeliveryAssignedEvent event) {
+        var order = getOrderOrThrow(event.orderId());
+        if (!order.getOrderStatus().equals(OrderStatus.PAID)) {
+            processIncorrectDeliveryState(order);
+            return;
+        }
+
+        order.setOrderStatus(OrderStatus.DELIVERY_ASSIGNED);
+        order.setCourierName(event.courierName());
+        order.setEtaMinutes(event.etaMinutes());
+        orderJpaRepository.save(order);
+        log.info("Order delivery assigned processed: orderId={}", order.getId());
+    }
+
+    private void processIncorrectDeliveryState(OrderEntity order) {
+        if (order.getOrderStatus().equals(OrderStatus.DELIVERY_ASSIGNED)) {
+            log.info("Order delivery already processed: orderId={}", order.getId());
+        } else {
+            log.error("Trying to assign delivery but order have incorrect state: state={}", order.getId());
+        }
     }
 }
 

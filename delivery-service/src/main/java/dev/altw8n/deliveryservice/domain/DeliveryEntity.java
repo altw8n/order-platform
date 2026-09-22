@@ -2,15 +2,7 @@ package dev.altw8n.deliveryservice.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "deliveries")
 public class DeliveryEntity {
@@ -36,7 +28,7 @@ public class DeliveryEntity {
         this.etaMinutes = etaMinutes;
     }
 
-    public DeliveryEntity() {}
+    public DeliveryEntity(){}
 
     public Long getId() {
         return id;
